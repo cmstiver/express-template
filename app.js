@@ -11,6 +11,7 @@ import helmet from 'helmet';
 import indexRouter from './routes/index';
 
 dotenv.config();
+const app = express();
 
 // Database Init
 const mongoDB = process.env.MONGODB_URI;
@@ -19,8 +20,7 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-const app = express();
-
+// Middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +30,7 @@ app.use(compression());
 app.use(helmet());
 app.use(cors());
 
+// Routers
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
